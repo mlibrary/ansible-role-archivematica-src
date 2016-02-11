@@ -270,7 +270,7 @@
 
 - name: "set nginx sites-available config file"
   template:
-    src: "etc_nginx_sites_storage.conf.j2"
+    src: "etc_nginx_sites_storage.conf.centos.j2"
     dest: "/etc/nginx/sites-available/storage.conf"
   tags: "amsrc-ss-websrv"
 
@@ -298,10 +298,14 @@
     state: "link"
   tags: "amsrc-ss-websrv"
 
+# note that the file ownership need to be set to the desired
+# uid:gid to run the uwsgi process (ref. uwsgi docs for emperor tyrant mode)
 - name: "template uwsgi config file"
   template:
-    src: "etc_uwsgi_apps_storage.ini.j2"
+    src: "etc_uwsgi_apps_storage.ini.centos.j2"
     dest: "/etc/uwsgi.d/storage.ini"
+    owner: "archivematica"
+    group: "archivematica"
   tags: "amsrc-ss-websrv"
 
 
