@@ -115,3 +115,59 @@ archivematica_src_am_mcpclient_pkgdeps_v1_4:
   - "ufraw"
   - "unrar-free"
   - "uuid"
+
+# ===============================================================
+# CentOS dependencies
+# ===============================================================
+
+archivematica_src_am_common_pkgdeps_centos_qa_1_x:
+  - "python"
+  - "python-pip"
+  - "mariadb-devel"
+
+archivematica_src_am_dashboard_pkgdeps_centos_qa_1_x:
+  - "httpd"
+  - "mod_wsgi"
+  - "python-pip"
+
+archivematica_src_am_mcpserver_pkgdeps_centos_qa_1_x:
+  - "uuid"
+
+archivematica_src_am_mcpclient_pkgdeps_centos_qa_1_x:
+#  - "atool"
+#  - "bagit"
+#  - "bulk-extractor"
+  - "clamav"
+  - "clamav-server"
+  - "clamav-scanner"
+  - "clamav-update"
+  - "clamav-scanner-systemd"
+  - "clamav-server-systemd"
+#  - "ffmpeg"
+#  - "fits"
+  - "gearmand"
+  - "ImageMagick"
+  - "inkscape"
+#  - "jhove"
+#  - "libimage-exiftool-perl"
+  - "libxml2"
+#  - "logapp"
+  - "md5deep"
+  - "mediainfo"
+  - "nfs-utils"
+  - "java-1.7.0-openjdk-headless"
+  - "p7zip"
+  - "p7zip-plugins"
+  - "pbzip2"
+  - "postfix"
+#  - "python-fido"
+  - "libpst"
+  - "rsync"
+#  - "siegfried"
+  - "sleuthkit"
+  - "tesseract"
+#  - "tika"
+  - "tree"
+#  - "ufraw"
+#  - "unrar-free"
+  - "uuid"

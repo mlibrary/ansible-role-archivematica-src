@@ -51,24 +51,30 @@
 #   5- Database config
 #   6- web server config
 
-# - include: "pipeline-clonecode.yml"
-#   tags:
-#     - "amsrc-pipeline"
-#     - "amsrc-pipeline-clonecode"
-#   when: archivematica_src_install_am == "yes"
-#
-# - include: "pipeline-deps.yml"
-#   tags:
-#     - "amsrc-pipeline"
-#     - "amsrc-pipeline-deps"
-#   when: archivematica_src_install_am == "yes"
-#
-# - include: "pipeline-osconf.yml"
-#   tags:
-#     - "amsrc-pipeline"
-#     - "amsrc-pipeline-osconf"
-#   when: archivematica_src_install_am == "yes"
-#
+- include: "pipeline-clonecode.yml"
+  tags:
+     - "amsrc-pipeline"
+     - "amsrc-pipeline-clonecode"
+  when: archivematica_src_install_am == "yes"
+
+- include: "pipeline-deps.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-deps"
+  when: archivematica_src_install_am == "yes" and ansible_distribution == 'Ubuntu'
+
+- include: "pipeline-deps-centos.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-deps"
+  when: archivematica_src_install_am == "yes" and ansible_distribution == 'CentOS'
+
+- include: "pipeline-osconf.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-osconf"
+  when: archivematica_src_install_am == "yes"
+
 # - include: "pipeline-instcode.yml"
 #   tags:
 #     - "amsrc-pipeline"
