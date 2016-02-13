@@ -1,0 +1,99 @@
+---
+
+###########################################################
+#   4- Code install
+###########################################################
+
+- name: "symlink archivematica-common source files"
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: "link"
+  with_items:
+    - src: "{{ archivematica_src_dir }}/archivematica/src/archivematicaCommon/lib"
+      dest: "/usr/lib/archivematica/archivematicaCommon"
+    - src: "{{ archivematica_src_dir }}/archivematica/src/archivematicaCommon/requirements.txt"
+      dest: "/usr/share/archivematica/archivematicaCommon/requirements.txt"
+    - src: "{{ archivematica_src_dir }}/archivematica/src/archivematicaCommon/requirements"
+      dest: "/usr/share/archivematica/archivematicaCommon/requirements"
+
+- name: "template archivematica-common /etc config"
+  template:
+    src: "etc_archivematica_archivematicaCommon_dbsettings.j2"
+    dest: "/etc/archivematica/archivematicaCommon/dbsettings"
+
+- name: "Copy archivematica-dashboard source files"
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: "link"
+  with_items:
+    - src: "{{ archivematica_src_dir }}/archivematica/src/dashboard/src"
+      dest: "/usr/share/archivematica/dashboard"
+
+
+- name: "Copy archivematica-mcp-server source files"
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: "link"
+  with_items:
+    - src: "{{ archivematica_src_dir }}/archivematica/src/MCPServer/lib"
+      dest: "/usr/lib/archivematica/MCPServer"
+    - src: "{{ archivematica_src_dir }}/archivematica/src/MCPServer/share"
+      dest: "/usr/share/archivematica/MCPServer"
+
+- name: "template MCPServer /etc config"
+  template:
+    src: "etc_archivematica_MCPServer_serverConfig.conf.j2"
+    dest: "/etc/archivematica/MCPServer/serverConfig.conf"
+
+- name: "Copy archivematica-mcp-client source files"
+  file: src={{ item.src }} dest={{ item.dest }} state=link
+  with_items:
+    - src: "{{ archivematica_src_dir }}/archivematica/src/MCPClient/lib/"
+      dest: "/usr/lib/archivematica/MCPClient"
+
+- name: "template MCPClient /etc config"
+  template:
+    src: "etc_archivematica_MCPClient_clientConfig.conf.j2"
+    dest: "/etc/archivematica/MCPClient/clientConfig.conf"
+
+- name: "move archivematicaClientModules to /usr/lib/archivematica/MCPClient"
+  command: "mv {{ archivematica_src_dir }}/archivematica/src/MCPClient/etc/archivematicaClientModules /usr/lib/archivematica/MCPClient/"
+  args:
+    creates: "/usr/lib/archivematica/MCPClient/archivematicaClientModules"
+
+# - name: "Copy archivematica-mcp-server init service"
+#   file:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     state: "link"
+#   with_items:
+#     - src: "{{ archivematica_src_dir }}/archivematica/src/MCPServer/init/archivematica-mcp-server.conf"
+#       dest: "/etc/init/archivematica-mcp-server.conf"
+#
+#
+# - name: "Copy archivematica-mcp-client init service"
+#   file: src={{ item.src }} dest={{ item.dest }} state=link
+#   with_items:
+#     - src: "{{ archivematica_src_dir }}/archivematica/src/MCPClient/init/archivematica-mcp-client.conf"
+#       dest: "/etc/init/archivematica-mcp-client.conf"
+#
+# - name: "Reload Upstart configuration"
+#   command: "initctl reload-configuration"
+
+- name: "Template archivematica-mcp-server systemctl file"
+  template:
+    src: "etc_systemd_system_archivematica-mcp-server.service.centos.j2"
+    dest: "/etc/systemd/system/archivematica-mcp-server.service"
+  notify:
+
+- name: "Template archivematica-mcp-client systemctl file"
+  template:
+    src: "etc_systemd_system_archivematica-mcp-client.service.centos.j2"
+    dest: "/etc/systemd/system/archivematica-mcp-client.service"
+  notify:
+
+- name: "reload systemctl daemon"
+  command: "systemctl daemon-reload"

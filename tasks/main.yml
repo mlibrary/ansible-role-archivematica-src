@@ -75,23 +75,35 @@
     - "amsrc-pipeline-osconf"
   when: archivematica_src_install_am == "yes"
 
-# - include: "pipeline-instcode.yml"
-#   tags:
-#     - "amsrc-pipeline"
-#     - "amsrc-pipeline-instcode"
-#   when: archivematica_src_install_am == "yes"
-#
-# - include: "pipeline-dbconf.yml"
-#   tags:
-#     - "amsrc-pipeline"
-#     - "amsrc-pipeline-dbconf"
-#   when: archivematica_src_install_am == "yes"
-#
-# - include: "pipeline-websrv.yml"
-#   tags:
-#     - "amsrc-pipeline"
-#     - "amsrc-pipeline-websrv"
-#   when: archivematica_src_install_am == "yes"
+- include: "pipeline-instcode.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-instcode"
+  when: archivematica_src_install_am == "yes" and ansible_distribution == 'Ubuntu'
+
+- include: "pipeline-instcode-centos.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-instcode"
+  when: archivematica_src_install_am == "yes" and ansible_distribution == 'CentOS'
+
+- include: "pipeline-dbconf.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-dbconf"
+  when: archivematica_src_install_am == "yes"
+
+- include: "pipeline-websrv.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-websrv"
+  when: archivematica_src_install_am == "yes" and ansible_distribution == 'Ubuntu'
+
+- include: "pipeline-websrv-centos.yml"
+  tags:
+    - "amsrc-pipeline"
+    - "amsrc-pipeline-websrv"
+  when: archivematica_src_install_am == "yes" and ansible_distribution == 'CentOS'
 
 #
 # archivematica-devtools
