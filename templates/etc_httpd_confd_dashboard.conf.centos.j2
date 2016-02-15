@@ -1,5 +1,10 @@
 # {{ ansible_managed }}
 
+<Directory /usr/share>
+        AllowOverride None
+        Require all granted
+</Directory>
+
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   DocumentRoot /var/www
